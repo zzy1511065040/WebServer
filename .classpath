@@ -2,5 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="E:/tools/java/jgoodies-looks-2.8.0/jgoodies-looks-2.8.0.jar"/>
+	<classpathentry kind="lib" path="E:/tools/java/jgoodies-common-1.9.0/jgoodies-common-1.9.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -5,6 +5,12 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+//import com.jgoodies.looks.windows.WindowsLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticLookAndFeel;
+//import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
+//import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+import com.jgoodies.looks.plastic.theme.*;//jgoodies主题包
+
 public class Interface {
 	public Interface()
 	{
@@ -27,7 +33,7 @@ class MyFrame extends JFrame{
 		GridBagLayout layout;
 		
 		//set frame width, height and let platform pick screen location
-		setSize(280, 380);
+		setSize(260, 360);
 		setLocationByPlatform(true);
 		setResizable(false);
 		
@@ -35,6 +41,22 @@ class MyFrame extends JFrame{
 		//Image img = kit.getImage("icon.gif");
 		//setIconImage(img);
 		setTitle("WebServer");
+		
+		//设置菜单栏
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		setting = new JMenu("Setting");
+		menuBar.add(setting);
+		JMenuItem start = new JMenuItem("Start");
+		setting.add(start);
+		JMenuItem turn = new JMenuItem("Stop");
+		setting.add(turn);
+		JMenuItem quit = new JMenuItem("Quit");
+		setting.add(quit);
+		help = new JMenu("Help");
+		menuBar.add(help);
+		JMenuItem about = new JMenuItem("About");
+		help.add(about);
 		
 		//set content pane
 		contentPane = new JPanel();
@@ -91,6 +113,17 @@ class MyFrame extends JFrame{
 		contentPane.add(cleanBtn, new GBC(0, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
 		contentPane.add(applyBtn, new GBC(1, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
 		contentPane.add(startBtn, new GBC(1, 5).setSpan(2, 1).setAnchor(GBC.EAST).setInsets(5,0,0,5));
+		
+		PlasticLookAndFeel.setPlasticTheme(new DesertBluer());//设置主题
+        try {
+            //设置观感
+            //UIManager.setLookAndFeel(new Plastic3DLookAndFeel());
+            UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel");
+            //UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
+            //UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+            //UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {}
 	}
 	private JPanel contentPane;
 	private JTextArea ipText;		//ip文本
@@ -102,4 +135,6 @@ class MyFrame extends JFrame{
 	private JButton cleanBtn;		//清除log内容按钮
 	private JButton applyBtn;		//“应用”按钮
 	private JButton startBtn;		//“启动”按钮
+	private JMenu setting;
+	private JMenu help;
 }
