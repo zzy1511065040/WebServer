@@ -63,7 +63,7 @@ class MyFrame extends JFrame{
 		folderText.setLineWrap(false);
 		folderText.setBorder(BorderFactory.createEtchedBorder());
 		folderBtn = new JButton("...");
-		folderBtn.setPreferredSize(new Dimension(20, 20));;
+		folderBtn.setPreferredSize(new Dimension(20, 20));
 		JLabel logLabel = new JLabel("Log ");
 		logText = new JTextArea();
 		logText.setWrapStyleWord(true);
@@ -71,6 +71,12 @@ class MyFrame extends JFrame{
 		logText.setEditable(false);
 		scrollPane = new JScrollPane(logText);
 		scrollPane.setPreferredSize(new Dimension(220, 150));
+		cleanBtn = new JButton("<html><font size=2>Clean</font></html>");
+		cleanBtn.setPreferredSize(new Dimension(60, 25));
+		applyBtn = new JButton("<html><font size=2>Apply</font></html>");
+		applyBtn.setPreferredSize(new Dimension(60, 25));
+		startBtn = new JButton("<html><font size=2>Start</font></html>");
+		startBtn.setPreferredSize(new Dimension(60, 25));
 		
 		//add components to grid, using GBC convenience class
 		contentPane.add(ipLabel, new GBC(0, 0).setAnchor(GBC.WEST).setInsets(0,5,0,0));
@@ -82,12 +88,18 @@ class MyFrame extends JFrame{
 		contentPane.add(folderBtn, new GBC(2, 2).setAnchor(GBC.CENTER).setInsets(2,0,2,5));
 		contentPane.add(logLabel, new GBC(0, 3).setAnchor(GBC.WEST).setInsets(20,5,0,0));
 		contentPane.add(scrollPane, new GBC(0, 4).setSpan(3, 1).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(0,5,0,5));
+		contentPane.add(cleanBtn, new GBC(0, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
+		contentPane.add(applyBtn, new GBC(1, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
+		contentPane.add(startBtn, new GBC(1, 5).setSpan(2, 1).setAnchor(GBC.EAST).setInsets(5,0,0,5));
 	}
 	private JPanel contentPane;
 	private JTextArea ipText;		//ip文本
 	private JTextArea portText;		//端口文本
 	private JTextArea folderText;	//文件路径文本
 	public JTextArea logText;		//日志文本
-	public JScrollPane scrollPane;	//滚动条面板
+	private JScrollPane scrollPane;	//滚动条面板
 	private JButton folderBtn;		//“浏览”按钮
+	private JButton cleanBtn;		//清除log内容按钮
+	private JButton applyBtn;		//“应用”按钮
+	private JButton startBtn;		//“启动”按钮
 }
