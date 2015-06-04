@@ -128,12 +128,12 @@ class MyFrame extends JFrame{
 		});
 		//folder文本框
 		JLabel folderLabel = new JLabel("Folder");
-		folderText = new JTextArea();
+		folderText = new JTextField();
 		//folderText.setText("Choose main folder");
 		folderText.setEditable(false);
-		folderScrollPane = new JScrollPane(folderText);
-		folderScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		folderScrollPane.setBorder(BorderFactory.createEtchedBorder());//设置滚动栏边框
+		//folderScrollPane = new JScrollPane(folderText);
+		//folderScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		folderText.setBorder(BorderFactory.createEtchedBorder());//设置滚动栏边框
 		//folderScrollPane.setPreferredSize(new Dimension(220, 150));
 		folderBtn = new JButton("...");
 		try {
@@ -171,7 +171,7 @@ class MyFrame extends JFrame{
 		logText.setEditable(false);
 		//滚动条面板
 		logScrollPane = new JScrollPane(logText);
-		logScrollPane.setPreferredSize(new Dimension(220, 150));
+		logScrollPane.setPreferredSize(new Dimension(logScrollPane.getWidth(), 150));
 		//清空logText内容按钮
 		cleanBtn = new JButton("<html><font size=2>Clean</font></html>");
 		cleanBtn.setPreferredSize(new Dimension(60, 25));
@@ -260,7 +260,7 @@ class MyFrame extends JFrame{
 		contentPane.add(portLabel, new GBC(0, 1).setAnchor(GBC.WEST).setInsets(0,5,0,0));
 		contentPane.add(portText, new GBC(1, 1).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(2));
 		contentPane.add(folderLabel, new GBC(0, 2).setAnchor(GBC.WEST).setInsets(0,5,0,0));
-		contentPane.add(folderScrollPane, new GBC(1, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(2));
+		contentPane.add(folderText, new GBC(1, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(2));
 		contentPane.add(folderBtn, new GBC(2, 2).setAnchor(GBC.CENTER).setInsets(2,0,2,5));
 		contentPane.add(logLabel, new GBC(0, 3).setAnchor(GBC.WEST).setInsets(20,5,0,0));
 		contentPane.add(logScrollPane, new GBC(0, 4).setSpan(3, 1).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(0,5,0,5));
@@ -299,7 +299,7 @@ class MyFrame extends JFrame{
 	private JPanel contentPane;
 	public JTextField ipText;		//ip文本
 	public JTextField portText;		//端口文本
-	public JTextArea folderText;	//文件路径文本
+	public JTextField folderText;	//文件路径文本
 	public JTextArea logText;		//日志文本
 	private JScrollPane logScrollPane;	//滚动条面板
 	private JScrollPane folderScrollPane;
@@ -321,6 +321,6 @@ class MyFrame extends JFrame{
 	private boolean goodIP = true; 		//当前输入ip是否合法
 	private boolean goodPort = true;	//当前输入port是否合法
 	
-	final int WINDOW_WIDTH = 260;
-	final int WINDOW_HEIGHT = 360;
+	final int WINDOW_WIDTH = 320;
+	final int WINDOW_HEIGHT = 400;
 }
