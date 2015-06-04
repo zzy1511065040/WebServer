@@ -52,22 +52,19 @@ public class Interface {
 		return frame.folderText.getText();
 	}
 	/*
-	 * 向logText写入
+	 * 获得logText
 	 */
-	public void writeLog(String log)
+	public JTextArea getLog()
 	{
-		frame.logText.append(log);
-		frame.logText.setCaretPosition(frame.logText.getDocument().getLength());
-		//设置光标到最后一行从而保持滚动条一直在最底端 
+		return frame.logText;
 	}
 	private MyFrame frame;
 }
 
 class MyFrame extends JFrame{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
+	
 	public MyFrame()
 	{
 		GridBagLayout layout;
