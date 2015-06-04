@@ -73,7 +73,7 @@ class MyFrame extends JFrame{
 		//设置frame的宽度, 高度；由 platform选择窗口的位置；固定窗口大小
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setLocationByPlatform(true);
-		setResizable(false);
+		setResizable(true);
 		
 		//设置frame的icon和title
 		//Image img = kit.getImage("icon.gif");
@@ -263,7 +263,7 @@ class MyFrame extends JFrame{
 		contentPane.add(folderText, new GBC(1, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(2));
 		contentPane.add(folderBtn, new GBC(2, 2).setAnchor(GBC.CENTER).setInsets(2,0,2,5));
 		contentPane.add(logLabel, new GBC(0, 3).setAnchor(GBC.WEST).setInsets(20,5,0,0));
-		contentPane.add(logScrollPane, new GBC(0, 4).setSpan(3, 1).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(0,5,0,5));
+		contentPane.add(logScrollPane, new GBC(0, 4).setSpan(3, 1).setFill(GBC.BOTH).setWeight(100, 100).setInsets(0,5,0,5));
 		contentPane.add(cleanBtn, new GBC(0, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
 		contentPane.add(applyBtn, new GBC(1, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
 		contentPane.add(startBtn, new GBC(1, 5).setSpan(2, 1).setAnchor(GBC.EAST).setInsets(5,0,0,5));
