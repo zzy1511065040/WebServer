@@ -4,13 +4,13 @@ import java.io.*;
 import java.net.*;
 
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 public class WebServer {
 
 	public static void main(String[] args) throws IOException 
 	{
-		String clientSentence;
-		
+		int counter = 0;
 		Interface config;
 		config = new Interface();
 		
@@ -18,8 +18,8 @@ public class WebServer {
 				new ServerSocket(6789, 0, InetAddress.getByName ("127.0.0.1"));//端口，队列长度，绑定地址
 		while(true) {
 			Socket connectionSocket = welcomeSocket.accept();
-			clientSentence = connectionSocket.getInetAddress().toString();
-			//config.writeLog("Client IP:"+clientSentence.substring(1)+"\n");
+			new ChildThread(connectionSocket, config.getFolder(), config.getLog(),  counter).start();
+			counter++;
 		}
 	}
 
