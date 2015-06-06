@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 //jgoodies主题包
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 //import com.jgoodies.looks.windows.WindowsLookAndFeel;
@@ -18,56 +19,17 @@ import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 //import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.*;
 
-public class Interface {
-	public Interface()
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				frame = new MyFrame();
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setVisible(true);
-			}
-		});//magic
-	}
-	/*
-	 * 获取应用的ip
-	 */
-	public String getIPAddr()
-	{
-		return frame.curIPAddr;
-	}
-	/*
-	 * 获取应用的端口
-	 */
-	public int getPort()
-	{
-		return frame.curPort;
-	}
-	/*
-	 * 获取应用的目录
-	 */
-	public String getFolder()
-	{
-		return frame.curDir;
-	}
-	/*
-	 * 获得logText
-	 */
-	public JTextArea getLog()
-	{
-		return frame.logText;
-	}
-	private MyFrame frame;
-}
-
-class MyFrame extends JFrame{
+public class Interface extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public MyFrame()
+	public Interface(boolean[] status, int[] threadCount)
 	{
+		this.runFlag = status[0];
+		//this.threadCount = threadCount;
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setVisible(true);
+		
 		GridBagLayout layout;
 		
 		//设置frame的宽度, 高度；由 platform选择窗口的位置；固定窗口大小
@@ -173,15 +135,16 @@ class MyFrame extends JFrame{
 		logScrollPane = new JScrollPane(logText);
 		logScrollPane.setPreferredSize(new Dimension(logScrollPane.getWidth(), 150));
 		//清空logText内容按钮
-		cleanBtn = new JButton("<html><font size=2>Clean</font></html>");
+		cleanBtn = new JButton("<html><font size=3>Clean</font></html>");
 		cleanBtn.setPreferredSize(new Dimension(60, 25));
 		cleanBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				logText.setText("");
+				counter = 0;
 			}
 		});
 		//应用当前设置按钮
-		applyBtn = new JButton("<html><font size=2>Apply</font></html>");
+		applyBtn = new JButton("<html><font size=3>Apply</font></html>");
 		applyBtn.setPreferredSize(new Dimension(60, 25));
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -229,18 +192,24 @@ class MyFrame extends JFrame{
 		startBtn.setPreferredSize(new Dimension(60, 25));
 		startBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(runFlag)
+				if(runFlag == true)
 				{	//如果服务正在进行，则此时为stop按钮
-					runFlag = false; //终止服务
+					status[0] = runFlag = false; //终止服务
 					startBtn.setText("<html><b><font size=3 color=green>Start</font></b></html>");
-					logText.append("Stoping...\n");
+					logText.append("Service stopped\n");
+					ipText.setEnabled(true);
+					portText.setEnabled(true);
+					folderBtn.setEnabled(true);
 				}
 				else
 				{	//如果服务不在进行，则此时为start按钮
-					if(setFlag)
+					if(setFlag == true)
 					{	//若已经设置ip和port
-						logText.append("Starting...\n");
-						runFlag = true; //启动服务
+						ipText.setEnabled(false);
+						portText.setEnabled(false);
+						folderBtn.setEnabled(false);
+						logText.append("Service started\n");
+						status[0] = runFlag = true; //启动服务
 						startBtn.setText("<html><b><font size=3 color=red>Stop</font></b></html>");
 					}
 					else
@@ -253,20 +222,26 @@ class MyFrame extends JFrame{
 				}
 			}
 		});
+		//状态栏
+		//toolBar = new JToolBar();
+		//JLabel label=new JLabel("状态栏");//("共有"+threadCount[0]+"个线程正在执行");
+		//toolBar.add(label);//把标签加到工具栏上
+		//toolBar.setFloatable(false);
 		
 		//将组件加入网格, 用到GBC帮助类(GBC.java)
-		contentPane.add(ipLabel, new GBC(0, 0).setAnchor(GBC.WEST).setInsets(0,5,0,0));
-		contentPane.add(ipText, new GBC(1, 0).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(2));
+		contentPane.add(ipLabel, new GBC(0, 0).setAnchor(GBC.WEST).setInsets(10,5,0,0));
+		contentPane.add(ipText, new GBC(1, 0).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(10,2,2,2));
 		contentPane.add(portLabel, new GBC(0, 1).setAnchor(GBC.WEST).setInsets(0,5,0,0));
 		contentPane.add(portText, new GBC(1, 1).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(2));
 		contentPane.add(folderLabel, new GBC(0, 2).setAnchor(GBC.WEST).setInsets(0,5,0,0));
 		contentPane.add(folderText, new GBC(1, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(2));
 		contentPane.add(folderBtn, new GBC(2, 2).setAnchor(GBC.CENTER).setInsets(2,0,2,5));
-		contentPane.add(logLabel, new GBC(0, 3).setAnchor(GBC.WEST).setInsets(20,5,0,0));
+		contentPane.add(logLabel, new GBC(0, 3).setAnchor(GBC.WEST).setInsets(10,5,0,0));
 		contentPane.add(logScrollPane, new GBC(0, 4).setSpan(3, 1).setFill(GBC.BOTH).setWeight(100, 100).setInsets(0,5,0,5));
 		contentPane.add(cleanBtn, new GBC(0, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
 		contentPane.add(applyBtn, new GBC(1, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
 		contentPane.add(startBtn, new GBC(1, 5).setSpan(2, 1).setAnchor(GBC.EAST).setInsets(5,0,0,5));
+		//contentPane.add(toolBar,new GBC(0, 6).setSpan(3, 1).setAnchor(GBC.WEST).setInsets(15,5,0,5));
 		
 		//设置主题
 		PlasticLookAndFeel.setPlasticTheme(new DesertBluer());
@@ -295,14 +270,62 @@ class MyFrame extends JFrame{
 		 }
 		return false;
 	}
-	
+	/*
+	 * 获取应用的ip
+	 */
+	public String getIPAddr()
+	{
+		return curIPAddr;
+	}
+	/*
+	 * 获取应用的端口
+	 */
+	public int getPort()
+	{
+		return curPort;
+	}
+	/*
+	 * 获取应用的目录
+	 */
+	public String getFolder()
+	{
+		return curDir;
+	}
+	/*
+	 * 获得logText
+	 */
+	public JTextArea getLog()
+	{
+		return logText;
+	}
+	/*
+	 * 获得当前运行状态runFlag
+	 */
+	public boolean getRunFlag()
+	{
+		return runFlag;
+	}
+	/*
+	 * 获得counter
+	 */
+	public int getCounter()
+	{
+		return counter;
+	}
+	public void incCounter()
+	{
+		++counter;
+	}
+	public void cleanCounter()
+	{
+		counter = 0;
+	}
 	private JPanel contentPane;
-	public JTextField ipText;		//ip文本
-	public JTextField portText;		//端口文本
-	public JTextField folderText;	//文件路径文本
-	public JTextArea logText;		//日志文本
+	private JTextField ipText;		//ip文本
+	private JTextField portText;		//端口文本
+	private JTextField folderText;	//文件路径文本
+	private JTextArea logText;		//日志文本
 	private JScrollPane logScrollPane;	//滚动条面板
-	private JScrollPane folderScrollPane;
 	private JButton folderBtn;		//“浏览”按钮
 	private JButton cleanBtn;		//清除log内容按钮
 	private JButton applyBtn;		//“应用”按钮
@@ -310,17 +333,20 @@ class MyFrame extends JFrame{
 	private JMenu setting;
 	private JMenu help;
 	private JFileChooser folderChooser;
+	//private JToolBar toolBar;
 	
-	public String curIPAddr;	//当前应用的ip
-	public int curPort;		//当前应用的端口
-	public String curDir;		//当前应用的目录
+	private int counter = 0; //进程序号
+	private int curPort;		//当前应用的端口
+	//private int[] threadCount;	//当前线程总数（只读）
+	private String curIPAddr;	//当前应用的ip
+	private String curDir;		//当前应用的目录
 	private String sltDir;
 	
-	public boolean runFlag = false;		//服务正在进行
-	public boolean setFlag = false;		//已设置好ip和端口
+	private boolean runFlag;		//服务正在进行
+	private boolean setFlag = false;		//已设置好ip和端口
 	private boolean goodIP = true; 		//当前输入ip是否合法
 	private boolean goodPort = true;	//当前输入port是否合法
 	
-	final int WINDOW_WIDTH = 320;
-	final int WINDOW_HEIGHT = 400;
+	private final int WINDOW_WIDTH = 320;
+	private final int WINDOW_HEIGHT = 450;
 }

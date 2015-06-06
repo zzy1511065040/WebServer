@@ -13,7 +13,9 @@ import javax.swing.JTextArea;
 
 public class ChildThread extends Thread{
 	
-	int n;   //请求数
+	int n;   //请求序号
+	int[] count; //线程数
+	boolean[] isRun; //当前服务正在运行
 	Socket serverSocket; //服务器端的套接字
 	String fileRoute;	//客户机请求文件的路径
 	String resultLine;	//服务器对请求的处理结果
@@ -33,34 +35,45 @@ public class ChildThread extends Thread{
 	 * log： 服务器界面文本框
 	 * counter: 请求计数器
 	 */
-	public ChildThread(Socket skt, String mainlist, JTextArea log, int counter) throws IOException
+	public ChildThread(	Socket skt, 
+						String mainlist, 
+						JTextArea log, 
+						int threadNum, 
+						int[] threadCount,
+						boolean[] status ) throws IOException
 	{
 		serverSocket = skt;
 		fileRoute = mainlist;
-		n = counter;
 		text = log;
+		n = threadNum;
+		count = threadCount;
+		//isRun = status;//只读
 		output = new PrintStream(serverSocket.getOutputStream());
 	}
 	public void run()
 	{
 		try	{
-			InputStream byteStream = serverSocket.getInputStream(); //获取字节流
-			InputStreamReader charStream = new  InputStreamReader(byteStream); //字节流转化为字符流
-			BufferedReader input = new BufferedReader(charStream); //字符流放入缓冲区
-			requestLine = input.readLine(); //读取客户机发出的HTTP请求行
-			String clientIP = serverSocket.getInetAddress().toString().substring(1); //获取客户机IP地址
-			int clientPort = serverSocket.getPort();//获取客户机端口号
-			String clientInf = new String("[Connection " + n + "]\n" + 
-											clientIP + ": " + clientPort 
-											+ "\n" + requestLine + "\n"); //客户机信息
-			ProcessRequest(); //获取请求处理结果并发送响应报文给客户机
-			String inf = new String(clientInf + resultLine);
-			text.append(inf);
+			//++count[0]; //线程总数加1
+			//if(isRun[0] == true)
+			//{
+				InputStream byteStream = serverSocket.getInputStream(); //获取字节流
+				InputStreamReader charStream = new  InputStreamReader(byteStream); //字节流转化为字符流
+				BufferedReader input = new BufferedReader(charStream); //字符流放入缓冲区
+				requestLine = input.readLine(); //读取客户机发出的HTTP请求行
+				String clientIP = serverSocket.getInetAddress().toString().substring(1); //获取客户机IP地址
+				int clientPort = serverSocket.getPort();//获取客户机端口号
+				String clientInf = new String("[Connection " + n + "]\n" + 
+												clientIP + ": " + clientPort 
+												+ "\n" + requestLine + "\n"); //客户机信息
+				ProcessRequest(); //获取请求处理结果并发送响应报文给客户机
+				String inf = new String(clientInf + resultLine);
+				text.append(inf);
+				text.setCaretPosition(text.getDocument().getLength());
+			//}			
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		
 	}
 	
 	private void ProcessRequest() throws Exception {
