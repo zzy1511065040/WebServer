@@ -58,6 +58,34 @@ public class Interface extends JFrame {
 		JMenuItem about = new JMenuItem("About");
 		help.add(about);
 		
+		//点击start
+		start.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(null, "服务器正在运行中，请关闭服务后再修改", "Error", 0);
+		    }
+		    });
+
+		//点击stop
+		turn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "<html><p>Version V1.0.0<br>2015@hust</p></html>", "Message", 1);
+			}
+			});
+		
+		//点击quit
+		quit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+			});
+		
+		//点击about
+		about.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "<html><p>Version V1.0.0<br>2015@hust<br><a href=https://github.com/glkwhr/WebServer>https://github.com/glkwhr/WebServer</a></p></html>", "Message", 1);
+			}
+			});
+		
 		//设置内容面板
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -217,16 +245,12 @@ public class Interface extends JFrame {
 						JOptionPane.showMessageDialog(	JOptionPane.getRootFrame(), 
 								"Apply your settings first!", 
 								"ERROR", 
-								JOptionPane.ERROR_MESSAGE);
+								0);
 					}
 				}
 			}
 		});
-		//状态栏
-		//toolBar = new JToolBar();
-		//JLabel label=new JLabel("状态栏");//("共有"+threadCount[0]+"个线程正在执行");
-		//toolBar.add(label);//把标签加到工具栏上
-		//toolBar.setFloatable(false);
+		
 		
 		//将组件加入网格, 用到GBC帮助类(GBC.java)
 		contentPane.add(ipLabel, new GBC(0, 0).setAnchor(GBC.WEST).setInsets(10,5,0,0));
@@ -241,7 +265,6 @@ public class Interface extends JFrame {
 		contentPane.add(cleanBtn, new GBC(0, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
 		contentPane.add(applyBtn, new GBC(1, 5).setAnchor(GBC.CENTER).setInsets(5,5,0,0));
 		contentPane.add(startBtn, new GBC(1, 5).setSpan(2, 1).setAnchor(GBC.EAST).setInsets(5,0,0,5));
-		//contentPane.add(toolBar,new GBC(0, 6).setSpan(3, 1).setAnchor(GBC.WEST).setInsets(15,5,0,5));
 		
 		//设置主题
 		PlasticLookAndFeel.setPlasticTheme(new DesertBluer());
